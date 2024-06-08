@@ -38,9 +38,17 @@ You are free to design the form in your own way, but if you want some reference,
 NOTE: You can design the form in your own way, but the following fields must be there:
 
 Name
+
+
 Email
+
+
 Password
+
+
 Repeat password
+
+
 A button -> which has Sign up written on it.
 Constraints for every field are given below:
 
