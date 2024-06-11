@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const Books = () => {
   const [books, setBooks] = useState([]);
-  const [userSearch, serUserSearch] = useState('');
+  const [userSearch, setUserSearch] = useState('');
 
   useEffect(() => {
     axios.get('https://reactnd-books-api.udacity.com/books', {
@@ -17,10 +17,9 @@ const Books = () => {
     });
   }, []);
 
-  const searchedBooks = books.filter(query =>
-    query.title.toLowerCase().includes(userSearch.toLowerCase())
-);
-
+  const searchedBooks = books.filter(book =>
+    book.title.toLowerCase().includes(userSearch.toLowerCase())
+  );
 
   return (
     <div>
@@ -29,16 +28,27 @@ const Books = () => {
           type="text"
           placeholder="Search Books"
           value={userSearch}
-          onChange={event => serUserSearch(event.target.value)}
+          onChange={event => setUserSearch(event.target.value)}
           className="w-full p-2 border border-gray-300 rounded"
         />
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {searchedBooks.map(item => (
-          <div key={item.id} className="p-4 bg-white shadow rounded">
-            <img src={item.imageLinks.thumbnail} alt={item.title} className="w-full h-48 object-cover mb-2" />
-            <h2 className="text-lg font-bold">{item.title}</h2>
-            <p className="text-gray-500">by {item.authors.join(', ')}</p>
+        {searchedBooks.map(book => (
+          <div key={book.id} className="p-4 bg-white shadow rounded">
+            {book.imageLinks?.thumbnail ? (
+              <img 
+                src={book.imageLinks.thumbnail} 
+                alt={book.title} 
+                className="w-full h-48 object-cover mb-2" 
+                style={{ objectFit: 'contain' }} 
+              />
+            ) : (
+              <div className="w-full h-48 flex items-center justify-center bg-gray-200 mb-2">
+                <span className="text-gray-500">No Image Available</span>
+              </div>
+            )}
+            <h2 className="text-lg font-bold">{book.title}</h2>
+            <p className="text-gray-500">by {book.authors.join(', ')}</p>
             <p className="text-red-500 font-bold">Free</p>
           </div>
         ))}
